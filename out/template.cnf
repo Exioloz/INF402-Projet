@@ -1,4 +1,0 @@
-p cnf <number of booleans> <number of clauses>
-b_i 0
-...
-b_n 0
