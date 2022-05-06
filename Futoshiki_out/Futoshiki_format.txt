@@ -1,0 +1,7 @@
+Format for .futoshiki files :
+Futoshiki are always in square format
+On the first line is the size of the puzzle : ex 4 for a 4x4.
+0 represents an empty square.
+The value of a cell must be between 1 and the size of the puzzle
+For a 4x4 size each line is composed of 7 characters and same for each column. 
+The first character is a cell value then the second can be either an inequation pointing towards another cell or an empty space.
