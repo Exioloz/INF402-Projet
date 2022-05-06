@@ -1,0 +1,22 @@
+grid model:
+
+n
+0   0   0   0
+             
+0   0   0   0
+             
+0   0   0   0
+             
+0   0   0   0
+
+n: grid is n by n
+0: can be any number in {1, ..., n}
+
+symbols:
+
+^   >
+<   v
+
+Warning:
+
+The spaces are very important (turn on invisible character to understand)
