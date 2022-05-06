@@ -1,9 +1,10 @@
+import sys
 from futoshiki import Futoshiki
 import logic
+import pysat
 
-file_to_load = "4x4_3.futoshiki"
-
-game = Futoshiki("blueprints/"+file_to_load)
+file_to_load = sys.argv[0]
+game = Futoshiki(file_to_load)
 
 print("Game debug")
 for i in game:

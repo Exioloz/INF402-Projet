@@ -1,7 +1,8 @@
 import numpy as np
 
+
 class Cell:
-	def __init__(self, i: int, j: int, side:int):
+	def __init__(self, i: int, j: int, side: int):
 		self.id = i * side + j
 		self.side = side
 		self.booleans = np.array(range(self.id * side + 1, self.id * side + 1 + side))
@@ -20,6 +21,7 @@ class Cell:
 	def set_value(self, value):
 		assert 0 <= value <= self.side
 		self.value = value
+
 
 class Futoshiki:
 	def __init__(self, filename: str):
