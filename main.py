@@ -1,10 +1,10 @@
 import sys
 from futoshiki import Futoshiki
 import logic
-import pysat
+#import pysat
 
-file_to_load = sys.argv[0]
-game = Futoshiki(file_to_load)
+file_to_load = sys.argv[1]
+game = Futoshiki("Futoshiki_in/" + file_to_load)
 
 print("Game debug")
 for i in game:
@@ -35,4 +35,4 @@ rule_6 = logic.rule_6(game)
 print("Rule 6")
 print(rule_6, end="\n\n")
 
-logic.create_cnf(f"out/{file_to_load}.cnf", game.side, rule_1, rule_2, rule_3, rule_4, rule_5, rule_6)
+logic.create_cnf(f"CNF_out/{file_to_load}.cnf", game.side, rule_1, rule_2, rule_3, rule_4, rule_5, rule_6)
