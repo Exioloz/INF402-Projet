@@ -1,4 +1,5 @@
-import pysat
+from pysat.solvers import CNF
+from pysat.solvers import Minisat22
 
 
 # Use the .cnf to SAT-solve it
@@ -19,24 +20,37 @@ def sat_solve(cnf_file, sat_file):
 
 
 # Use the SAT-solved file to create a list of the solution
-def resolution(sat_file):
+def resolution(n, sat_file):
+	f_sat = open(sat_file, "r")
 
-	# WIP
-	with open(sat_file, "r") as sat:
-		lines = sat.readlines()
+	# Keeping only positive bools
+	number_tab = []
+	minus = 0
+	number = ""
+	tab = f_sat.read()
+	for char in tab:
+		if char == " ":
+			if minus == 0:
+				number_tab.append(number)
+			minus = 0
+			number = ""
+		else:
+			if char == "-":
+				minus = 1
 
-	# Trying to transform string to int from lines to int_tab
+			if minus == 0:
+				number = number + char
+
+	# Transforming str to int
 	int_tab = []
-	for line in lines:
-		int_tab.append(int(line))
+	for x in number_tab:
+		int_tab.append(int(x))
+	print(int_tab)
 
-	sat_sol = []
-	for number in int_tab:
-		if number > 0:
-			sat_sol.append(number)
-	# Transform the x(a) to the actual answer
-	# TODO
+	# Finding the futoshiki answers for each cell
 	solution = []
+	for number in int_tab:
+		solution.append((number % n) + 1)
 	return solution
 
 

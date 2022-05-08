@@ -42,6 +42,11 @@ logic.create_cnf(f"CNF_out/{file_to_load}.cnf", game.side, rule_1, rule_2, rule_
 # TODO
 cnf_file = f"CNF_out/{file_to_load}.cnf"
 sat.sat_solve(cnf_file, f"SAT_out/{file_to_load}.sat")
+
 sat_file = f"SAT_out/{file_to_load}.sat"
-solution = sat.resolution(sat_file)
+file_futoshiki = open("Futoshiki_in/" + file_to_load, "r")
+futoshiki = file_futoshiki.read()
+size = int(futoshiki[0])
+solution = sat.resolution(size, sat_file)
+
 sat.create_solution("Futoshiki_in/" + file_to_load, "Futoshiki_in/" + file_to_load, solution)
