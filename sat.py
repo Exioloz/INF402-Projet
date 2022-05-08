@@ -50,7 +50,11 @@ def resolution(n, sat_file):
 	# Finding the futoshiki answers for each cell
 	solution = []
 	for number in int_tab:
-		solution.append((number % n) + 1)
+		c = number % n
+		if c == 0:
+			c = 3
+		solution.append(c)
+
 	return solution
 
 
