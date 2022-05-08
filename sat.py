@@ -48,22 +48,23 @@ def create_solution(file_in, file_out, solution):
 	futoshiki = empty_futoshiki.read()
 	empty_futoshiki.close()
 	completed_futoshiki.write(futoshiki[0])
+	completed_futoshiki.write("\n")
 
+	size = int(futoshiki[0])
 	n = len(solution)
-	y = 1
-	completed_futoshiki.write(solution[0])
-	for x in range(1, n-2):
-		completed_futoshiki.write(solution[x])
-		completed_futoshiki.write(futoshiki[x + 1])
-		completed_futoshiki.write(futoshiki[x + 2])
-		completed_futoshiki.write(futoshiki[x + 3])
+	x = 1  # lines with the futoshiki cells
+	i = 0
+	for row in range(1, size*2):
+		y = 1  # rows with the futoshiki cells
 
-		if x == n/y:
-			i = 0
-			while i < n:
-				completed_futoshiki.write(" ")
+		for line in range(1, size*size):
+			completed_futoshiki.write(futoshiki[(row * line)])
+			if line == y and row == x:
+				if i >= n:
+					print("Erreur solution et futoshiki incompatible")
+				completed_futoshiki.write(solution[i])
 				i += 1
-			y += 1
-
-	completed_futoshiki.write(solution[n-1])
+				y += 4  # 3 spaces before next cell
+		x += 2  # 1 line before next cell
+		completed_futoshiki.write("\n")
 	completed_futoshiki.close()
