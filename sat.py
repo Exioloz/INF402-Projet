@@ -1,7 +1,3 @@
-from pysat.solvers import CNF
-from pysat.solvers import Minisat22
-
-
 # Use the .cnf to SAT-solve it
 def sat_solve(cnf_file, sat_file):
 
@@ -60,29 +56,37 @@ def resolution(n, sat_file):
 
 # Create file with the solved Futoshiki.
 def create_solution(file_in, file_out, solution):
+	base = open(file_in, "r")
+	futoshiki = base.read()
+	base.close()
 
-	empty_futoshiki = open(file_in, "r")
-	completed_futoshiki = open(file_out, "w")
-	futoshiki = empty_futoshiki.read()
-	empty_futoshiki.close()
-	completed_futoshiki.write(futoshiki[0])
-	completed_futoshiki.write("\n")
+	complete = open(file_out, "w")
+	complete.write(futoshiki[0])
+	complete.write(futoshiki[1])
 
 	size = int(futoshiki[0])
-	n = len(solution)
-	x = 1  # lines with the futoshiki cells
-	i = 0
-	for row in range(1, size*2):
-		y = 1  # rows with the futoshiki cells
+	index_futoshiki = 2
+	index_sol = 0
+	line_size = size * size  # 9
+	row_size = size + size  # 6
+	print(row_size)
+	print(line_size)
+	j = 0
 
-		for line in range(1, size*size):
-			completed_futoshiki.write(futoshiki[(row * line)])
-			if line == y and row == x:
-				if i >= n:
-					print("Erreur solution et futoshiki incompatible")
-				completed_futoshiki.write(solution[i])
-				i += 1
-				y += 4  # 3 spaces before next cell
-		x += 2  # 1 line before next cell
-		completed_futoshiki.write("\n")
-	completed_futoshiki.close()
+	for row in range(row_size - 1):
+		i = 0
+		add_j = 0
+		for line in range(line_size + 1):
+			print("line:", line, " i :", i)
+			# print("row :",row, " j :", j)
+			if line == i and row == j:
+				i += 4
+				add_j = 1
+				complete.write(str(solution[index_sol]))
+				index_sol += 1
+			else:
+				complete.write(futoshiki[index_futoshiki])
+
+			index_futoshiki += 1
+		if add_j:
+			j += 2

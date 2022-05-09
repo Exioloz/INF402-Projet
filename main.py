@@ -49,4 +49,4 @@ futoshiki = file_futoshiki.read()
 size = int(futoshiki[0])
 solution = sat.resolution(size, sat_file)
 
-sat.create_solution("Futoshiki_in/" + file_to_load, "Futoshiki_in/" + file_to_load, solution)
+sat.create_solution("Futoshiki_in/" + file_to_load, "Futoshiki_out/" + file_to_load, solution)
