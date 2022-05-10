@@ -1,89 +1,55 @@
-import pysat
 from pysat.formula import CNF
 from pysat.solvers import Minisat22
 
 
 # Use the .cnf to SAT-solve it
 def sat_solve(cnf_file, sat_file):
-
-	# WIP
-	sat = open(sat_file, "w")
 	cnf = CNF(from_file=cnf_file)  # reading from file
-	
-	print(cnf.clauses)
-
+	sat_tab = []
 	with Minisat22(bootstrap_with=cnf) as m:
 		m.solve()
-	print(m.get_model())
-
-	sat.write(m.get_model())
-	sat.close()
+		m.get_model()
+		sat_tab.append(m.get_model())
+		sat_file.write(str(m.get_model()))
+	return sat_tab[0]
 
 
 # Use the SAT-solved file to create a list of the solution
-def resolution(n, sat_file):
-	f_sat = open(sat_file, "r")
+def resolution(n, sat):
 
 	# Keeping only positive bools
-	number_tab = []
-	minus = 0
-	number = ""
-	tab = f_sat.read()
-	for char in tab:
-		if char == " ":
-			if minus == 0:
-				number_tab.append(number)
-			minus = 0
-			number = ""
-		else:
-			if char == "-":
-				minus = 1
-
-			if minus == 0:
-				number = number + char
-
-	# Transforming str to int
-	int_tab = []
-	for x in number_tab:
-		int_tab.append(int(x))
-	print(int_tab)
+	positive_bool = []
+	for number in sat:
+		if number > 0:
+			positive_bool.append(number)
 
 	# Finding the futoshiki answers for each cell
 	solution = []
-	for number in int_tab:
+	for number in positive_bool:
 		c = number % n
 		if c == 0:
-			c = 3
+			c = n
 		solution.append(c)
-
 	return solution
 
 
 # Create file with the solved Futoshiki.
-def create_solution(file_in, file_out, solution):
-	base = open(file_in, "r")
-	futoshiki = base.read()
-	base.close()
+def create_solution(futoshiki, complete, solution):
 
-	complete = open(file_out, "w")
 	complete.write(futoshiki[0])
 	complete.write(futoshiki[1])
 
 	size = int(futoshiki[0])
 	index_futoshiki = 2
 	index_sol = 0
-	line_size = size * size  # 9
-	row_size = size + size  # 6
-	print(row_size)
-	print(line_size)
+	line_size = size * 4 - 2
+	row_size = size + size
 	j = 0
-
+	
 	for row in range(row_size - 1):
 		i = 0
 		add_j = 0
-		for line in range(line_size + 1):
-			print("line:", line, " i :", i)
-			# print("row :",row, " j :", j)
+		for line in range(line_size):
 			if line == i and row == j:
 				i += 4
 				add_j = 1
@@ -91,7 +57,6 @@ def create_solution(file_in, file_out, solution):
 				index_sol += 1
 			else:
 				complete.write(futoshiki[index_futoshiki])
-
 			index_futoshiki += 1
 		if add_j:
 			j += 2

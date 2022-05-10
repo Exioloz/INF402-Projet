@@ -37,16 +37,18 @@ print(rule_6, end="\n\n")
 
 logic.create_cnf(f"CNF_out/{file_to_load}.cnf", game.side, rule_1, rule_2, rule_3, rule_4, rule_5, rule_6)
 
-# WIP
-# Use SAT file to make a finished futoshiki grid
-# TODO
+print("")
 cnf_file = f"CNF_out/{file_to_load}.cnf"
-sat.sat_solve(cnf_file, f"SAT_out/{file_to_load}.sat")
-
 sat_file = f"SAT_out/{file_to_load}.sat"
-file_futoshiki = open("Futoshiki_in/" + file_to_load, "r")
-futoshiki = file_futoshiki.read()
-size = int(futoshiki[0])
-solution = sat.resolution(size, sat_file)
+sat_out = open(sat_file, "w")
+sat_solution = sat.sat_solve(cnf_file, sat_out)
+sat_out.close()
 
-sat.create_solution("Futoshiki_in/" + file_to_load, "Futoshiki_out/" + file_to_load, solution)
+file_futoshiki = open("Futoshiki_in/" + file_to_load, "r")
+futoshiki_in = file_futoshiki.read()
+solution = sat.resolution(int(futoshiki_in[0]), sat_solution)
+file_futoshiki.close()
+
+futoshiki_out = open("Futoshiki_out/" + file_to_load, "w")
+sat.create_solution(futoshiki_in, futoshiki_out, solution)
+futoshiki_out.close()
