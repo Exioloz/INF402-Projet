@@ -1,17 +1,22 @@
+import pysat
+from pysat.formula import CNF
+from pysat.solvers import Minisat22
+
+
 # Use the .cnf to SAT-solve it
 def sat_solve(cnf_file, sat_file):
 
 	# WIP
-	cnf = open(cnf_file, "r")
 	sat = open(sat_file, "w")
+	cnf = CNF(from_file=cnf_file)  # reading from file
+	
+	print(cnf.clauses)
 
-	# Use of PySat to SAT-Solve
-	# TODO
-	# sol = pysat.formatter(cnf) ?
-	sol = "0"
-	sat.write(sol)
+	with Minisat22(bootstrap_with=cnf) as m:
+		m.solve()
+	print(m.get_model())
 
-	cnf.close()
+	sat.write(m.get_model())
 	sat.close()
 
 
