@@ -3,8 +3,8 @@ from futoshiki import Futoshiki
 import logic
 import sat
 
-file_to_load = sys.argv[1]
-game = Futoshiki("Futoshiki_in/" + file_to_load)
+file_to_load = sys.argv[1]  # Name of the futoshiki file
+game = Futoshiki("Futoshiki_in/" + file_to_load)  # Converting the .futoshiki file to data
 
 print("Game debug")
 for i in game:
@@ -41,14 +41,17 @@ print("")
 cnf_file = f"CNF_out/{file_to_load}.cnf"
 sat_file = f"SAT_out/{file_to_load}.sat"
 sat_out = open(sat_file, "w")
+# Using the CNF created file and SAT-solve it
 sat_solution = sat.sat_solve(cnf_file, sat_out)
 sat_out.close()
 
 file_futoshiki = open("Futoshiki_in/" + file_to_load, "r")
 futoshiki_in = file_futoshiki.read()
+# Creating a list of integer of the solution using the size of the puzzle and SAT-solved list of booleans
 solution = sat.resolution(int(futoshiki_in[0]), sat_solution)
 file_futoshiki.close()
 
 futoshiki_out = open("Futoshiki_out/" + file_to_load, "w")
+# Making a solved Futoshiki based of the one given to the program using the solution
 sat.create_solution(futoshiki_in, futoshiki_out, solution)
 futoshiki_out.close()
