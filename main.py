@@ -3,7 +3,11 @@ from futoshiki import Futoshiki
 import logic
 import sat
 
-file_to_load = sys.argv[1]  # Name of the futoshiki file
+if len(sys.argv) == 2:
+	file_to_load = sys.argv[1]  # Name of the futoshiki file
+else:
+	exit("Error invalid arguments\nNumber of arguments should be one")
+	
 game = Futoshiki("Futoshiki_in/" + file_to_load)  # Converting the .futoshiki file to data
 
 print("Game debug")
@@ -36,8 +40,11 @@ print("Rule 6")
 print(rule_6, end="\n\n")
 
 logic.create_cnf(f"CNF_out/{file_to_load}.cnf", game.side, rule_1, rule_2, rule_3, rule_4, rule_5, rule_6)
-
 print("")
+
+print("Unsolved Futoshiki :\n")
+Futoshiki.print(game)  # Printing the incomplete Futoshiki
+
 cnf_file = f"CNF_out/{file_to_load}.cnf"
 sat_file = f"SAT_out/{file_to_load}.sat"
 sat_out = open(sat_file, "w")
@@ -55,3 +62,7 @@ futoshiki_out = open("Futoshiki_out/" + file_to_load, "w")
 # Making a solved Futoshiki based of the one given to the program using the solution
 sat.create_solution(futoshiki_in, futoshiki_out, solution)
 futoshiki_out.close()
+
+solved_game = Futoshiki("Futoshiki_out/" + file_to_load)
+print("Solved Futoshiki :\n")
+Futoshiki.print(solved_game)  # Printing the completed Futoshiki
